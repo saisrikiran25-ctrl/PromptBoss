@@ -1,0 +1,317 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base reset ──────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
+  }
+
+  body {
+    background-color: #080C10;
+    color: #F0F4F8;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: #F0F4F8;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  ::selection {
+    background: rgba(0, 212, 255, 0.25);
+    color: #F0F4F8;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0E1318;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.12);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.2);
+  }
+
+  /* Focus ring */
+  :focus-visible {
+    outline: 2px solid #00D4FF;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Remove default focus for mouse users */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  input, textarea, select {
+    background-color: transparent;
+    color: inherit;
+  }
+
+  button {
+    cursor: pointer;
+    font-family: inherit;
+  }
+}
+
+/* ── Component utilities ──────────────────────────────────── */
+@layer components {
+  .card {
+    @apply bg-bg-surface border border-border-subtle rounded-xl;
+  }
+
+  .card-hover {
+    @apply transition-all duration-150 hover:border-border-default hover:-translate-y-0.5 hover:shadow-card-hover;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-lg
+           transition-all duration-150 px-4 py-2.5 disabled:opacity-40 disabled:cursor-not-allowed;
+    active:scale-[0.98];
+  }
+
+  .btn-primary {
+    @apply btn bg-accent-cyan text-bg-base hover:bg-accent-cyan-dim shadow-glow-cyan/30;
+  }
+
+  .btn-ghost {
+    @apply btn border border-border-default text-text-primary bg-transparent hover:border-border-accent hover:text-accent-cyan;
+  }
+
+  .btn-danger {
+    @apply btn bg-status-danger-dim text-status-danger border border-status-danger/30 hover:bg-status-danger hover:text-white;
+  }
+
+  .input-field {
+    @apply w-full bg-bg-elevated border border-border-default rounded-lg px-3 py-2.5 text-sm text-text-primary 
+           placeholder:text-text-muted focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan/30 
+           transition-all duration-150 outline-none;
+  }
+
+  .select-field {
+    @apply input-field appearance-none cursor-pointer;
+  }
+
+  .label {
+    @apply text-xs font-medium text-text-secondary uppercase tracking-wider;
+  }
+
+  .section-heading {
+    @apply font-display text-3xl md:text-4xl font-bold text-text-primary;
+  }
+
+  .section-subheading {
+    @apply text-text-secondary text-lg leading-relaxed;
+  }
+
+  .prompt-block {
+    @apply bg-bg-elevated border-l-2 border-accent-cyan rounded-r-lg rounded-l-none 
+           p-5 font-mono text-[13px] leading-7 text-text-primary overflow-y-auto;
+    max-height: 400px;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium font-body;
+  }
+
+  .skeleton {
+    @apply rounded-lg bg-bg-elevated relative overflow-hidden;
+    background: linear-gradient(90deg, #0E1318 25%, #131B22 50%, #0E1318 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  .nav-link {
+    @apply text-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-150 relative py-1;
+  }
+
+  .nav-link.active {
+    @apply text-text-primary;
+  }
+
+  .nav-link.active::after {
+    content: '';
+    @apply absolute bottom-0 left-0 right-0 h-px bg-accent-cyan;
+  }
+
+  .tab-btn {
+    @apply px-4 py-2 text-sm font-medium text-text-secondary hover:text-text-primary 
+           border-b-2 border-transparent hover:border-border-default transition-all duration-150 whitespace-nowrap;
+  }
+
+  .tab-btn.active {
+    @apply text-accent-cyan border-accent-cyan;
+  }
+
+  .diagnostic-dot {
+    @apply w-2 h-2 rounded-full flex-shrink-0 mt-1.5;
+  }
+
+  .diagnostic-dot.critical { @apply bg-status-danger; }
+  .diagnostic-dot.warning  { @apply bg-accent-amber; }
+  .diagnostic-dot.good     { @apply bg-status-success; }
+}
+
+/* ── Custom utilities ─────────────────────────────────────── */
+@layer utilities {
+  .text-gradient-cyan {
+    background: linear-gradient(135deg, #00D4FF, #00A8CC);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-hero {
+    background: linear-gradient(135deg, #F0F4F8 30%, #00D4FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-grid {
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .bg-radial-glow {
+    background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,212,255,0.12), transparent);
+  }
+
+  .border-gradient-cyan {
+    border-image: linear-gradient(135deg, #00D4FF, transparent) 1;
+  }
+
+  .glow-text-cyan {
+    text-shadow: 0 0 30px rgba(0,212,255,0.5);
+  }
+
+  .transition-120 {
+    transition-duration: 120ms;
+  }
+
+  .transition-240 {
+    transition-duration: 240ms;
+  }
+
+  .content-max {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .active\:scale-98:active {
+    transform: scale(0.98);
+  }
+}
+
+/* ── Animations ───────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes glow {
+  0%   { box-shadow: 0 0 5px rgba(0,212,255,0.3), 0 0 10px rgba(0,212,255,0.1); }
+  100% { box-shadow: 0 0 20px rgba(0,212,255,0.6), 0 0 40px rgba(0,212,255,0.2); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+
+@keyframes score-ring {
+  from { stroke-dashoffset: 283; }
+}
+
+.animate-float        { animation: float 3s ease-in-out infinite; }
+.animate-pulse-dot    { animation: pulse-dot 2s ease-in-out infinite; }
+.animate-score-ring   { animation: score-ring 1s ease-out forwards; }
+.animate-fade-up      { animation: fadeUp 0.24s ease-out both; }
+.animate-fade-in      { animation: fadeIn 0.24s ease-out both; }
+.animate-glow-border  { animation: glow 2s ease-in-out infinite alternate; }
+
+/* Staggered animation delays */
+.delay-100  { animation-delay: 100ms; }
+.delay-200  { animation-delay: 200ms; }
+.delay-300  { animation-delay: 300ms; }
+.delay-400  { animation-delay: 400ms; }
+.delay-500  { animation-delay: 500ms; }
+.delay-600  { animation-delay: 600ms; }
+.delay-700  { animation-delay: 700ms; }
+.delay-800  { animation-delay: 800ms; }
+
+/* Sonner toast overrides */
+[data-sonner-toaster] [data-type='success'] {
+  background: #0E1318 !important;
+  border: 1px solid rgba(0,201,141,0.3) !important;
+  color: #F0F4F8 !important;
+}
+[data-sonner-toaster] [data-type='error'] {
+  background: #0E1318 !important;
+  border: 1px solid rgba(255,77,109,0.3) !important;
+  color: #F0F4F8 !important;
+}
+
+/* Textarea auto-resize */
+textarea.auto-resize {
+  field-sizing: content;
+  min-height: 180px;
+  max-height: 400px;
+  resize: none;
+  overflow-y: auto;
+}
+
+/* Mobile tab bar safe area */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .mobile-nav {
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  }
+}
